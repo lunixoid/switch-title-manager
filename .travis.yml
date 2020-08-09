@@ -1,0 +1,15 @@
+sudo: required
+
+language: cpp
+
+services:
+  - docker
+
+jobs:
+  include:
+    - script: |
+        docker run --name switch_builder -it --rm -v $(pwd):/repo.git -w /repo.git devkitpro/devkita64:latest /bin/bash -c '
+        export PS4='\''+ \e[33;1m($0 @ line $LINENO) \$\e[0m '\'' # quotes must be escaped
+        set -e # exit on failure
+        set -x # trace for debug
+        make -j $(nproc --all)'
