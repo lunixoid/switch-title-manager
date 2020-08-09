@@ -42,14 +42,14 @@ BUILD		:=	build.nx
 SOURCES		:=	src/apps/${TARGET}
 DATA		:=	data
 ICON		:=	resources/icon/borealis.jpg
-INCLUDES	:=	.
+INCLUDES	:=	src/apps/${TARGET}
 APP_TITLE	:=	${TARGET}
 APP_AUTHOR	:=	lunix0x
 APP_VERSION	:=	0.0.0
 
 ROMFS				:=	resources
 BOREALIS_PATH		:=	third-party/borealis
-BOREALIS_RESOURCES	:=	romfs:/
+RESOURCES_PATH		:=	romfs:/
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -60,9 +60,9 @@ CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
 			$(ARCH) $(DEFINES)
 
 CFLAGS	+=	$(INCLUDE) -D__SWITCH__ \
-			-DBOREALIS_RESOURCES="\"$(BOREALIS_RESOURCES)\""
+			-DBOREALIS_RESOURCES="\"$(RESOURCES_PATH)\""
 
-CXXFLAGS	:= $(CFLAGS) -std=c++1z -O2
+CXXFLAGS	:= $(CFLAGS) -std=c++17 -O2
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
@@ -75,7 +75,7 @@ LIBS	:= -lnx -lm
 #---------------------------------------------------------------------------------
 LIBDIRS	:= $(PORTLIBS) $(LIBNX)
 
-include $(TOPDIR)/library/borealis.mk
+include $(TOPDIR)/$(BOREALIS_PATH)/library/borealis.mk
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
